@@ -184,7 +184,8 @@
                             <td>{{ assignment.editor.full_name }}</td>
                             <td>{{ assignment.editor.email }}</td>
                             <td>{{ assignment.editor_type|capfirst }}</td>
-                            <td><a href="{% url 'unassigned_unassign_editor' article.id assignment.editor.id %}">Remove</a>
+                            <td>
+                                <a href="{% url 'unassigned_unassign_editor' article.id assignment.editor.id %}">Remove</a>
                             </td>
                         </tr>
                         {% empty %}
@@ -251,7 +252,13 @@
             <div class="content">
                 {% if article.stage == 'Unassigned' and not article.stage == 'Assigned' %}
                     <ul class="menu vertical actions">
-                        <li><button><i class="fa fa-arrow-right">&nbsp;</i>Move to next Stage</button></li>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <li>
+                                <button name="complete"><i class="fa fa-arrow-right">&nbsp;</i>Move to next Stage</button>
+                            </li>
+                        </form>
+
                     </ul>
                 {% else %}
                     <div class="bs-callout bs-callout-danger">

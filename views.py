@@ -49,6 +49,15 @@ def unassigned_article(request, article_id):
     if article.ithenticate_id and not article.ithenticate_score:
         ithenticate.fetch_percentage(request.journal, [article])
 
+    if request.POST and 'complete' in request.POST:
+        article.snapshot_authors(article)
+        workflow_kwargs = {'handshake_url': 'unassigned_article',
+                           'request': request,
+                           'article': article,
+                           'switch_stage': True}
+        return event_logic.Events.raise_event(event_logic.Events.ON_WORKFLOW_ELEMENT_COMPLETE, task_object=article,
+                                              **workflow_kwargs)
+
     if 'crosscheck' in request.POST:
         file_id = request.POST.get('crosscheck')
         file = get_object_or_404(core_models.File, pk=file_id)

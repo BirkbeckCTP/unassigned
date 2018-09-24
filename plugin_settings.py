@@ -11,6 +11,7 @@ MANAGER_URL = 'unassigned_admin'
 # Workflow Settings
 IS_WORKFLOW_PLUGIN = True
 HANDSHAKE_URL = 'unassigned_article'
+ARTICLE_PK_IN_HANDSHAKE_URL = True
 STAGE = STAGE_UNASSIGNED
 KANBAN_CARD = 'unassigned/kanban_card.html'
 
