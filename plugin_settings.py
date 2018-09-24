@@ -1,3 +1,6 @@
+from utils import models
+from submission.models import STAGE_UNASSIGNED
+
 PLUGIN_NAME = 'Unassigned Article Plugin'
 DESCRIPTION = 'A workflow plugin for handling unassigned articles.'
 AUTHOR = 'Andy Byers'
@@ -8,10 +11,9 @@ MANAGER_URL = 'unassigned_admin'
 # Workflow Settings
 IS_WORKFLOW_PLUGIN = True
 HANDSHAKE_URL = 'unassigned_article'
-STAGE = 'Unassigned Article'
+STAGE = STAGE_UNASSIGNED
 KANBAN_CARD = 'unassigned/kanban_card.html'
 
-from utils import models
 
 def install():
     new_plugin, created = models.Plugin.objects.get_or_create(name=SHORT_NAME, version=VERSION, enabled=True)
