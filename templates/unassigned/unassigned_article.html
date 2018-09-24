@@ -131,10 +131,10 @@
                                 <td><a href="{% url 'article_file_download' 'id' article.pk file.pk %}"><i
                                         class="fa fa-download">&nbsp;</i></a></td>
                                 <td>
-                                    <a href="{% url 'article_file_replace' 'id' article.pk file.pk %}?return={% url 'review_unassigned_article' article.pk %}"><i
+                                    <a href="{% url 'article_file_replace' 'id' article.pk file.pk %}?return={% url 'unassigned_article' article.pk %}"><i
                                             class="fa fa-cloud-upload">&nbsp;</i></a></td>
                                 <td>
-                                    <a href="{% url 'file_history' article.pk file.pk %}?return={% url 'review_unassigned_article' article.pk %}"><i
+                                    <a href="{% url 'file_history' article.pk file.pk %}?return={% url 'unassigned_article' article.pk %}"><i
                                             class="fa fa-history">&nbsp;</i></a></td>
                                 {% if journal_settings.crosscheck.enable %}
                                     <td>{% if not article.ithenticate_id %}
@@ -184,7 +184,7 @@
                             <td>{{ assignment.editor.full_name }}</td>
                             <td>{{ assignment.editor.email }}</td>
                             <td>{{ assignment.editor_type|capfirst }}</td>
-                            <td><a href="{% url 'review_unassign_editor' article.id assignment.editor.id %}">Remove</a>
+                            <td><a href="{% url 'unassigned_unassign_editor' article.id assignment.editor.id %}">Remove</a>
                             </td>
                         </tr>
                         {% empty %}
@@ -217,7 +217,7 @@
                             <td>{{ account_role.user.email }}</td>
                             <td>Editor</td>
                             <td>
-                                <a href="{% url 'review_assign_editor' article.pk account_role.user.id 'editor' %}?return={% url 'review_unassigned_article' article.pk %}">Add</a>
+                                <a href="{% url 'unassigned_assign_editor' article.pk account_role.user.id 'editor' %}?return={% url 'unassigned_article' article.pk %}">Add</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -227,7 +227,7 @@
                             <td>{{ account_role.user.email }}</td>
                             <td>Section Editor</td>
                             <td>
-                                <a href="{% url 'review_assign_editor' article.pk account_role.user.id 'section-editor' %}?return={% url 'review_unassigned_article' article.pk %}">Add</a>
+                                <a href="{% url 'unassigned_assign_editor' article.pk account_role.user.id 'section-editor' %}?return={% url 'unassigned_article' article.pk %}">Add</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -250,21 +250,9 @@
             </div>
             <div class="content">
                 {% if article.stage == 'Unassigned' and not article.stage == 'Assigned' %}
-                    {% if article.editors %}
-                        <ul class="menu vertical actions">
-                            <li>
-                                <a href="{% url 'review_move_to_review' article.pk %}?return={% url 'review_in_review' article.pk %}"><i
-                                        class="fa fa-check action-icon">&nbsp;</i>Move to Review</a></li>
-                            <li><a href="{% url 'review_decision' article.id 'accept' %}"><i
-                                    class="fa fa-check-circle action-icon">&nbsp;</i>Accept Article</a></li>
-                            <li><a href="{% url 'review_decision' article.id 'decline' %}"><i
-                                    class="fa fa-minus-circle action-icon">&nbsp;</i>Decline Article</a></li>
-                        </ul>
-                    {% else %}
-                        <div class="bs-callout bs-callout-info">
-                            <small>Before you can perform actions on an article you must assign an Editor.</small>
-                        </div>
-                    {% endif %}
+                    <ul class="menu vertical actions">
+                        <li><button><i class="fa fa-arrow-right">&nbsp;</i>Move to next Stage</button></li>
+                    </ul>
                 {% else %}
                     <div class="bs-callout bs-callout-danger">
                         <small>Article is no longer in the unassigned stage.</small>
